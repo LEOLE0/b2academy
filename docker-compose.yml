@@ -1,0 +1,49 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html/src   # Monte seulement le répertoire src
+      - ./vendor:/var/www/html/vendor # Monte le répertoire vendor si nécessaire
+      - ./php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - symfony-network
+    command: >
+      sh -c "composer --version && php-fpm"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/html/public
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php
+    networks:
+      - symfony-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: b2academy
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - symfony-network
+
+volumes:
+  mysql_data:
+
+networks:
+  symfony-network:
