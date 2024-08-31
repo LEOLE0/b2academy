@@ -22,9 +22,6 @@ class Cours
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date_creation = null;
-
     #[ORM\ManyToOne(inversedBy: 'cours')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $instructeur = null;
@@ -32,24 +29,8 @@ class Cours
     #[ORM\Column(length: 255)]
     private ?string $youtube_url = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
-
-    /**
-     * @var Collection<int, Inscription>
-     */
-    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'cours')]
-    private Collection $inscriptions;
-
-    /**
-     * @var Collection<int, Commentaire>
-     */
-    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'cours')]
-    private Collection $commentaires;
-
     public function __construct()
     {
-        $this->inscriptions = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
     }
 
@@ -82,18 +63,6 @@ class Cours
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeImmutable
-    {
-        return $this->date_creation;
-    }
-
-    public function setDateCreation(\DateTimeImmutable $date_creation): static
-    {
-        $this->date_creation = $date_creation;
-
-        return $this;
-    }
-
     public function getInstructeur(): ?Utilisateur
     {
         return $this->instructeur;
@@ -114,48 +83,6 @@ class Cours
     public function setYoutubeUrl(string $youtube_url): static
     {
         $this->youtube_url = $youtube_url;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Inscription>
-     */
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-
-    public function addInscription(Inscription $inscription): static
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions->add($inscription);
-            $inscription->setCours($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscription(Inscription $inscription): static
-    {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getCours() === $this) {
-                $inscription->setCours(null);
-            }
-        }
 
         return $this;
     }

@@ -6,9 +6,13 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,47 +22,29 @@ class Utilisateur
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $mot_de_passe = null;
+    private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date_inscription = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $dernier_acces = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
-
-    /**
-     * @var Collection<int, Cours>
-     */
     #[ORM\OneToMany(targetEntity: Cours::class, mappedBy: 'instructeur')]
     private Collection $cours;
 
-    /**
-     * @var Collection<int, Inscription>
-     */
-    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'utilisateur')]
-    private Collection $inscriptions;
-
-    /**
-     * @var Collection<int, Commentaire>
-     */
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'utilisateur')]
     private Collection $commentaires;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
 
     public function __construct()
     {
         $this->cours = new ArrayCollection();
-        $this->inscriptions = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
@@ -90,64 +76,44 @@ class Utilisateur
         return $this;
     }
 
-    public function getMotDePasse(): ?string
+    public function getPassword(): ?string
     {
-        return $this->mot_de_passe;
+        return $this->password;
     }
 
-    public function setMotDePasse(string $mot_de_passe): static
+    public function setPassword(string $password): static
     {
-        $this->mot_de_passe = $mot_de_passe;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRoles(): array
     {
-        return $this->role;
+        return array_unique($this->roles);
     }
 
-    public function setRole(string $role): static
+    public function setRoles(array $roles): static
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getDateInscription(): ?\DateTimeImmutable
+    public function eraseCredentials(): void
     {
-        return $this->date_inscription;
+        // Cette méthode peut être utilisée pour effacer les données sensibles.
     }
 
-    public function setDateInscription(\DateTimeImmutable $date_inscription): static
+    public function getSalt()
     {
-        $this->date_inscription = $date_inscription;
-
-        return $this;
+        // Non nécessaire avec bcrypt ou sodium.
+        return null;
     }
 
-    public function getDernierAcces(): ?\DateTimeImmutable
+    public function getUserIdentifier(): string
     {
-        return $this->dernier_acces;
-    }
-
-    public function setDernierAcces(?\DateTimeImmutable $dernier_acces): static
-    {
-        $this->dernier_acces = $dernier_acces;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
+        return $this->email;
     }
 
     /**
@@ -158,52 +124,22 @@ class Utilisateur
         return $this->cours;
     }
 
-    public function addCour(Cours $cour): static
+    public function addCours(Cours $cours): static
     {
-        if (!$this->cours->contains($cour)) {
-            $this->cours->add($cour);
-            $cour->setInstructeur($this);
+        if (!$this->cours->contains($cours)) {
+            $this->cours->add($cours);
+            $cours->setInstructeur($this);
         }
 
         return $this;
     }
 
-    public function removeCour(Cours $cour): static
+    public function removeCours(Cours $cours): static
     {
-        if ($this->cours->removeElement($cour)) {
+        if ($this->cours->removeElement($cours)) {
             // set the owning side to null (unless already changed)
-            if ($cour->getInstructeur() === $this) {
-                $cour->setInstructeur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Inscription>
-     */
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-
-    public function addInscription(Inscription $inscription): static
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions->add($inscription);
-            $inscription->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscription(Inscription $inscription): static
-    {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getUtilisateur() === $this) {
-                $inscription->setUtilisateur(null);
+            if ($cours->getInstructeur() === $this) {
+                $cours->setInstructeur(null);
             }
         }
 
@@ -236,6 +172,18 @@ class Utilisateur
                 $commentaire->setUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
