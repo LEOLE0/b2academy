@@ -33,6 +33,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // Redirection après inscription
+            $this->addFlash('success', 'Votre compte a été créé avec succès.');
             return $this->redirectToRoute('home');
         }
 

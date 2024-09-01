@@ -21,14 +21,15 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+                default_target_path: home    # Redirect to home after login
                 csrf_token_id: authenticate
                 csrf_parameter: _csrf_token
-                enable_csrf: true 
+                enable_csrf: true
                 username_parameter: email
                 password_parameter: password
             logout:
                 path: logout
-                target: /
+                target: home    # Redirect to home after logout
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }

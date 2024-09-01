@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <header>
+        <nav>
+    <div class="logo">
+        <img src="{{ asset('images/logob.png') }}" alt="Logo">
+    </div>
+    <ul>
+        <li><a href="{{ path('home') }}">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Témoignages</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+    {% if is_granted('ROLE_USER') %}
+        <div id="menu-burger" class="menu-burger">
+            ☰
+        </div>
+        <!-- Sidebar Menu qui s'affiche au clic -->
+        <div id="sidebar" class="sidebar">
+            <a href="#" class="close-btn">&times;</a>
+            <a href="#">Mon Compte</a>
+            <a href="#">Programme 1</a>
+            <a href="#">Programme 2</a>
+            <a href="#">Programme 3</a>
+            <a href="#">Programme 4</a>
+            <a href="#">Programme 5</a>
+            <a href="#">Programme 6</a>
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        </div>
+    {% else %}
+        <div class="auth-buttons">
+            <a href="{{ path('app_login') }}" class="btn-outline">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn-filled">S'inscrire</a>
+        </div>
+    {% endif %}
+</nav>
+    </header>
+
+    <section id="hero">
+    <div class="container">
+        <div data-scroll-animation="fadeInLeft" data-animation-delay="0.05s" class="hero-content">
+            <p>De zéro à héros du code, un octet à la fois !</p>
+            <a href="{{ path('app_register') }}" class="btn-primary">Je m'inscris</a>
+        </div>
+        <div data-scroll-animation="fadeInRight" data-animation-delay="0.05s" class="hero-image">
+            <img src="{{ asset('images/hero-image.png') }}" alt="Hero Image">
+        </div>
+    </div>
+
+</section>
+
+    <section id="about">
+    <div class="container">
+        <div class="about-content">
+            <div data-scroll-animation="fadeInRight" data-animation-delay="0.02s" class="about-image">
+                <img src="{{ asset('images/about-image.png') }}" alt="About Image">
+            </div>
+            <div data-scroll-animation="fadeInLeft" data-animation-delay="0.02s" class="about-text">
+                <h2>B2-Academy ?</h2>
+                <p>
+                    Créée en 2020, Base2 Academy est une plateforme dédiée à l’enseignement en ligne de l’informatique. Nous offrons des formations accessibles et de haute qualité, adaptées à tous les niveaux, pour aider les passionnés et les professionnels à maîtriser les compétences numériques essentielles dans un monde en constante évolution.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="superpower">
+    <div class="container">
+        <h2>Former, c’est notre superpouvoir !</h2>
+        <div class="features">
+            <div class="feature feature-1">
+                <img data-scroll-animation="fadeInDown" data-animation-delay="0.02s" src="{{ asset('images/project-based-learning.png') }}" alt="Project-Based Learning">
+                <h3 data-scroll-animation="fadeInDown" data-animation-delay="0.02s">Project-Based Learning</h3>
+                <p data-scroll-animation="fadeInDown" data-animation-delay="0.02s">En réalisant des projets concrets, cela vous prépare directement au marché du travail.</p>
+                <img data-scroll-animation="fadeInDown" data-animation-delay="0.02s" src="{{ asset('images/down-arrow.png') }}" alt="Arrow">
+            </div>
+            <div class="feature feature-2">
+                <img data-scroll-animation="fadeInDown" data-animation-delay="0.02s" src="{{ asset('images/experts-it.png') }}" alt="Experts en IT">
+                <h3 data-scroll-animation="fadeInDown" data-animation-delay="0.02s">Experts en IT</h3>
+                <p data-scroll-animation="fadeInDown" data-animation-delay="0.02s">Nous garantissons un contenu à jour et pertinent pour maîtriser les dernières technologies et tendances en informatique.</p>
+                <img data-scroll-animation="fadeInDown" data-animation-delay="0.02s" src="{{ asset('images/down-arrow.png') }}" alt="Arrow">
+            </div>
+            <div class="feature feature-3">
+                <img data-scroll-animation="fadeInDown" data-animation-delay="0.02s" src="{{ asset('images/flexibility-learning.png') }}" alt="Flexibilité d'apprentissage">
+                <h3 data-scroll-animation="fadeInDown" data-animation-delay="0.02s">Flexibilité</h3>
+                <p data-scroll-animation="fadeInDown" data-animation-delay="0.02s">Des cours accessibles à tout moment, vous permettant d’apprendre à votre rythme, selon vos disponibilités, tout en bénéficiant d’un suivi personnalisé.</p>
+                <img data-scroll-animation="fadeInDown" data-animation-delay="0.02s" src="{{ asset('images/down-arrow.png') }}" alt="Arrow">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section id="mission-code">
+    <div class="container">
+        <p data-scroll-animation="fadeInDown" data-animation-delay="0.05s">Mission Code : Deviens celui que tu dois être !<br>Nos programme :</p>
+        <div class="programmes">
+            <a data-scroll-animation="fadeInLeft" data-animation-delay="0.05s" href="#" class="programme dark">
+                <span class="programme-title">Initiation à la programmation</span>
+                <img src="{{ asset('images/right-arrow.png') }}" alt="Arrow">
+            </a>
+            <a data-scroll-animation="fadeInRight" data-animation-delay="0.05s" href="#" class="programme light">
+                <span class="programme-title">Intelligence Artificielle :<br>Algorithmes et applications</span>
+                <img src="{{ asset('images/right-arrow.png') }}" alt="Arrow">
+            </a>
+            <a data-scroll-animation="fadeInLeft" data-animation-delay="0.05s" href="#" class="programme light">
+                <span class="programme-title">Développement Web :<br>Du frontend au backend</span>
+                <img src="{{ asset('images/right-arrow.png') }}" alt="Arrow">
+            </a>
+            <a data-scroll-animation="fadeInRight" data-animation-delay="0.05s" href="#" class="programme dark">
+                <span class="programme-title">DevOps :<br>Automatisation et intégration continue</span>
+                <img src="{{ asset('images/right-arrow.png') }}" alt="Arrow">
+            </a>
+            <a data-scroll-animation="fadeInLeft" data-animation-delay="0.05s" href="#" class="programme dark">
+                <span class="programme-title">Cybersécurité :<br>Défends le monde numérique</span>
+                <img src="{{ asset('images/right-arrow.png') }}" alt="Arrow">
+            </a>
+            <a data-scroll-animation="fadeInRight" data-animation-delay="0.05s" href="#" class="programme light">
+                <span class="programme-title">Science des Données :<br>Analyse et visualisation</span>
+                <img src="{{ asset('images/right-arrow.png') }}" alt="Arrow">
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+
+    <section id="testimonials">
+        <div class="container">
+            <h2>ILS NOUS ONT FAIS CONFIANCE</h2>
+            <div class="testimonials">
+                <blockquote>
+                    <p>B2 Academy m’a permis d’acquérir des compétences en développement web avec des cours clairs et engageants. J’ai rapidement vu les résultats dans ma carrière. Recommandé !</p>
+                    <cite>Lucas Moreau</cite>
+                </blockquote>
+                <blockquote>
+                    <p>es modules de B2A sont pratiques et bien structurés. J’ai pu appliquer mes nouvelles compétences en programmation dès le premier jour. Excellente plateforme !</p>
+                    <cite>Amal Malouf</cite>
+                </blockquote>
+                <blockquote>
+                    <p>Grâce à Base2 Academy, j’ai perfectionné mes compétences en informatique et décroché un emploi rapidement. Les cours sont de haute qualité et accessibles à tous.</p>
+                    <cite>Jordan Parsons</cite>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+
+
+
+<section id="quote">
+    <div class="container">
+        <img src="{{ asset('images/ceo-illustration.png') }}" alt="CEO Illustration">
+        <blockquote>
+            “Excellence, passion et résultats. Notre mission est de transformer vos ambitions en compétences numériques solides”.
+        </blockquote>
+        <p class="quote-author">RAFIK HATTAB, CEO</p>
+    </div>
+</section>
+
+
+        <section id="contact">
+    <div class="container">
+        <h2>Des questions sur votre quête de héros du code ?<br>On vous guide !</h2>
+        <div class="contact-content">
+            <div class="contact-image">
+                <img src="{{ asset('images/contact-illustration.png') }}" alt="Contact Illustration">
+            </div>
+            <div class="contact-info">
+                <p><strong>Adresse postale</strong><br>123 Avenue saint-martin<br>Paris, France 75010</p>
+                <p><strong>Email Address</strong><br><a href="mailto:contact@b2academy.com">contact@b2academy.com</a></p>
+                <p><strong>Phone Number</strong><br><a href="tel:+33167582121">01 67 58 21 21</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <footer id="footer">
+    <div class="container">
+        <img src="{{ asset('images/logo-footer.png') }}" alt="Base-2 Academy Logo">
+        <p>&copy;2020 Tous droits réservés</p>
+    </div>
+</footer>
+
+{% endblock %}

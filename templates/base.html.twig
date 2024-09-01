@@ -4,16 +4,68 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        
+        {# Inclusion de la police Poppins via Google Fonts #}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
+        {# Inclusion du fichier CSS principal #}
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+        {% block stylesheets %}{% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body style="font-family: 'Poppins', sans-serif;">
         {% block body %}{% endblock %}
+
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('[data-scroll-animation]');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const animationName = entry.target.getAttribute('data-scroll-animation');
+                    const animationDelay = entry.target.getAttribute('data-animation-delay') || '0s';
+
+                    entry.target.style.animationName = animationName;
+                    entry.target.style.animationDelay = animationDelay;
+                    entry.target.style.opacity = 1;
+
+                    observer.unobserve(entry.target); // Pour éviter que l'animation se répète
+                }
+            });
+        });
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuBurger = document.getElementById('menu-burger');
+        const sidebar = document.getElementById('sidebar');
+        const closeBtn = document.querySelector('.close-btn');
+
+        menuBurger.addEventListener('click', function() {
+            sidebar.classList.add('active-sidebar');
+        });
+
+        closeBtn.addEventListener('click', function() {
+            sidebar.classList.remove('active-sidebar');
+        });
+
+        // Close the sidebar if the user clicks outside of it
+        document.addEventListener('click', function(event) {
+            if (!sidebar.contains(event.target) && !menuBurger.contains(event.target)) {
+                sidebar.classList.remove('active-sidebar');
+            }
+        });
+    });
+</script>
     </body>
 </html>
