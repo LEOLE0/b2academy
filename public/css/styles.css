@@ -85,12 +85,15 @@ nav ul li a {
 
 /* Styles pour le menu burger */
 #menu-burger {
-    display: none; /* Masqué par défaut */
-    font-size: 24px;
+     
+    font-size: 40px;
     cursor: pointer;
     color: #004d35;
     padding: 0.5rem;
+    margin-left: 150px;
+    
 }
+
 
 /* Styles pour la sidebar */
 .sidebar {
@@ -99,18 +102,20 @@ nav ul li a {
     position: fixed;
     top: 0;
     right: 0;
-    background-color: #004d35;
+    background-color: #90a2856f;
     overflow-x: hidden;
     transition: 0.3s;
     padding-top: 60px;
     z-index: 1001;
+    backdrop-filter: blur(10px);
+    
 }
 
 .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 25px;
-    color: #ffffff;
+    color: #004d35;
     display: block;
     transition: 0.3s;
 }
@@ -124,8 +129,30 @@ nav ul li a {
     position: absolute;
     top: 10px;
     right: 25px;
-    font-size: 36px;
+    font-size: 46px;
+    color: #385b43;
+    border: none;
 }
+
+.sidebar .btn-fill {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 18px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #ffffff;
+    background-color: #d55542;
+    border: 2px solid #00281c;
+}
+
+
+.sidebar .dasboard {
+    font-weight: 900;
+    
+}
+
+
 
 /* Cacher le menu burger sur les grands écrans et afficher sur les petits */
 @media (max-width: 768px) {
@@ -139,7 +166,9 @@ nav ul li a {
 
 /* Afficher le menu burger en plein écran lorsqu'il est ouvert */
 .sidebar.active {
-    width: 250px; /* Définir la largeur de la sidebar lorsqu'elle est active */
+    width: 250px; /* S'assurer que la classe active fonctionne correctement */
+    width: 400px;
+   
 }
 
 /* Assurer que les boutons de connexion/s'inscrire apparaissent également à côté du burger sur les petits écrans */

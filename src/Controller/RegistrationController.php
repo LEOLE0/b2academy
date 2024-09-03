@@ -10,18 +10,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
+    public function register(
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        EntityManagerInterface $entityManager, 
+        UserAuthenticatorInterface $userAuthenticator,
+        EventDispatcherInterface $eventDispatcher // Injecter le service ici
+    ): Response {
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the plain password
+            // Encoder le mot de passe
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -31,6 +40,14 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+
+            // Créer le token pour authentifier l'utilisateur
+            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+            $this->container->get('security.token_storage')->setToken($token);
+
+            // Déclencher l'événement de login interactif
+            $event = new InteractiveLoginEvent($request, $token);
+            $eventDispatcher->dispatch($event); // Utiliser le service injecté ici
 
             // Redirection après inscription
             $this->addFlash('success', 'Votre compte a été créé avec succès.');

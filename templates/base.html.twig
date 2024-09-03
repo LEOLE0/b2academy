@@ -12,60 +12,54 @@
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
         {% block stylesheets %}{% endblock %}
+    </head>
+    <body style="font-family: 'Poppins', sans-serif;">
+    
+        <header>
+            <nav aria-label="Main Navigation">
+                <div class="logo">
+                    <img src="{{ asset('images/logob.png') }}" alt="Base2 Academy Logo">
+                </div>
+                <ul>
+                    <li><a href="{{ path('home') }}">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Témoignages</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                {% if is_granted('ROLE_USER') %}
+                    <div id="menu-burger" class="menu-burger" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+                        ☰
+                    </div>
+                    <!-- Sidebar Menu qui s'affiche au clic -->
+                    <div id="sidebar" class="sidebar" aria-hidden="true">
+                        <button class="close-btn" aria-label="Close menu">&times;</button>
+                        <a href="#" class="dasboard">Mon Compte</a>
+                        <a href="#">Programme 1</a>
+                        <a href="#">Programme 2</a>
+                        <a href="#">Programme 3</a>
+                        <a href="#">Programme 4</a>
+                        <a href="#">Programme 5</a>
+                        <a href="#">Programme 6</a>
+                        <a href="{{ path('app_logout') }}" class="btn-fill">Déconnexion</a>
+                    </div>
+                {% else %}
+                    <div class="auth-buttons">
+                        <a href="{{ path('app_login') }}" class="btn-outline">Se connecter</a>
+                        <a href="{{ path('app_register') }}" class="btn-filled">S'inscrire</a>
+                    </div>
+                {% endif %}
+            </nav>
+        </header>   
+
+        {% block body %}
+            {% if app.user %}
+                {{ dump(app.user) }}
+            {% endif %}
+        {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script src="{{ asset('js/scripts.js') }}"></script>
         {% endblock %}
-    </head>
-    <body style="font-family: 'Poppins', sans-serif;">
-        {% block body %}{% endblock %}
-
-        <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const animatedElements = document.querySelectorAll('[data-scroll-animation]');
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const animationName = entry.target.getAttribute('data-scroll-animation');
-                    const animationDelay = entry.target.getAttribute('data-animation-delay') || '0s';
-
-                    entry.target.style.animationName = animationName;
-                    entry.target.style.animationDelay = animationDelay;
-                    entry.target.style.opacity = 1;
-
-                    observer.unobserve(entry.target); // Pour éviter que l'animation se répète
-                }
-            });
-        });
-
-        animatedElements.forEach(el => {
-            observer.observe(el);
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuBurger = document.getElementById('menu-burger');
-        const sidebar = document.getElementById('sidebar');
-        const closeBtn = document.querySelector('.close-btn');
-
-        menuBurger.addEventListener('click', function() {
-            sidebar.classList.add('active-sidebar');
-        });
-
-        closeBtn.addEventListener('click', function() {
-            sidebar.classList.remove('active-sidebar');
-        });
-
-        // Close the sidebar if the user clicks outside of it
-        document.addEventListener('click', function(event) {
-            if (!sidebar.contains(event.target) && !menuBurger.contains(event.target)) {
-                sidebar.classList.remove('active-sidebar');
-            }
-        });
-    });
-</script>
     </body>
 </html>

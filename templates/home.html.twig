@@ -3,41 +3,6 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <header>
-        <nav>
-    <div class="logo">
-        <img src="{{ asset('images/logob.png') }}" alt="Logo">
-    </div>
-    <ul>
-        <li><a href="{{ path('home') }}">Home</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Témoignages</a></li>
-        <li><a href="#">Contact</a></li>
-    </ul>
-    {% if is_granted('ROLE_USER') %}
-        <div id="menu-burger" class="menu-burger">
-            ☰
-        </div>
-        <!-- Sidebar Menu qui s'affiche au clic -->
-        <div id="sidebar" class="sidebar">
-            <a href="#" class="close-btn">&times;</a>
-            <a href="#">Mon Compte</a>
-            <a href="#">Programme 1</a>
-            <a href="#">Programme 2</a>
-            <a href="#">Programme 3</a>
-            <a href="#">Programme 4</a>
-            <a href="#">Programme 5</a>
-            <a href="#">Programme 6</a>
-            <a href="{{ path('app_logout') }}">Déconnexion</a>
-        </div>
-    {% else %}
-        <div class="auth-buttons">
-            <a href="{{ path('app_login') }}" class="btn-outline">Se connecter</a>
-            <a href="{{ path('app_register') }}" class="btn-filled">S'inscrire</a>
-        </div>
-    {% endif %}
-</nav>
-    </header>
 
     <section id="hero">
     <div class="container">
