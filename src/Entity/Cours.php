@@ -22,10 +22,6 @@ class Cours
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cours')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $instructeur = null;
-
     #[ORM\Column(length: 255)]
     private ?string $youtube_url = null;
 
@@ -59,18 +55,6 @@ class Cours
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getInstructeur(): ?Utilisateur
-    {
-        return $this->instructeur;
-    }
-
-    public function setInstructeur(?Utilisateur $instructeur): static
-    {
-        $this->instructeur = $instructeur;
 
         return $this;
     }

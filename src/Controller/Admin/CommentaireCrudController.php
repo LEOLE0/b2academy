@@ -20,10 +20,10 @@ class CommentaireCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('utilisateur', 'Utilisateur'), // Lien vers l'utilisateur
-            AssociationField::new('cours', 'Cours'), // Lien vers le cours
+            AssociationField::new('utilisateur', 'Utilisateur'),
+            AssociationField::new('cours', 'Cours'),
             TextEditorField::new('contenu', 'Contenu du commentaire'),
-            DateTimeField::new('date_commenta', 'Date du commentaire')
+            DateTimeField::new('date_commentaire', 'Date du commentaire')->hideOnForm(), // Correct the field name here
         ];
     }
 }

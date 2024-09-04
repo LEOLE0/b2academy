@@ -21,7 +21,6 @@ class CoursCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('instructeur', 'Instructeur'), // Lien vers l'instructeur
             TextField::new('titre', 'Titre du cours'),
             TextEditorField::new('description', 'Description'),
             UrlField::new('youtube_url', 'Lien YouTube')

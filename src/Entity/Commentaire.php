@@ -29,7 +29,7 @@ class Commentaire
     private ?\DateTimeImmutable $date_commentaire = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    private ?string $status = 'pending';
 
     public function getId(): ?int
     {

@@ -24,7 +24,7 @@
                     <li><a href="{{ path('home') }}">Home</a></li>
                     <li><a href="#">Services</a></li>
                     <li><a href="#">Témoignages</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="{{ path('contact') }}">Contact</a></li>
                 </ul>
                 {% if is_granted('ROLE_USER') %}
                     <div id="menu-burger" class="menu-burger" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
@@ -34,7 +34,7 @@
                     <div id="sidebar" class="sidebar" aria-hidden="true">
                         <button class="close-btn" aria-label="Close menu">&times;</button>
                         <a href="#" class="dasboard">Mon Compte</a>
-                        <a href="#">Programme 1</a>
+                        <a href="{{ path('app_cours_index') }}">Programme 1</a>
                         <a href="#">Programme 2</a>
                         <a href="#">Programme 3</a>
                         <a href="#">Programme 4</a>

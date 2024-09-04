@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
+{% endblock %}
+
+{% block body %}
+<section id="contact">
+    <div class="container">
+        <h2>Des questions sur votre quête de héros du code ?<br>On vous guide !</h2>
+        <div class="contact-content">
+            <div class="contact-image">
+                <img src="{{ asset('images/contact-illustration.png') }}" alt="Contact Illustration">
+            </div>
+            <div class="contact-info">
+                <p><strong>Adresse postale</strong><br>123 Avenue saint-martin<br>Paris, France 75010</p>
+                <p><strong>Email Address</strong><br><a href="mailto:contact@b2academy.com">contact@b2academy.com</a></p>
+                <p><strong>Phone Number</strong><br><a href="tel:+33167582121">01 67 58 21 21</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="newsletter">
+    <div class="container">
+        <h2>Inscrivez-vous à notre newsletter</h2>
+        <form id="newsletter-form">
+            <input type="email" id="email" name="email" placeholder="Votre email" required>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
