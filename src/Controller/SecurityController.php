@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logout(): void
     {
-        // controller can be blank: it will never be executed!
-        // throw new \Exception('Don\'t forget to activate logout in security.yaml');
+        // Ce contrôleur ne doit jamais être exécuté.
+        throw new \Exception('Logout method should not be executed.');
     }
 }

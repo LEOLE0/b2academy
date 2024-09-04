@@ -1,21 +1,35 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>Login</h1>
+    <div class="login-container">
+        <h1>Connexion</h1>
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+        {% if error %}
+            <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required>
+        <form action="{{ path('app_login') }}" method="post">
+            <div class="form-group">
+                <label for="username">Email :</label>
+                <input type="text" id="username" name="email" value="{{ last_username }}" required>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" required>
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button type="submit">Login</button>
-    </form>
+            <div class="form-group">
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
